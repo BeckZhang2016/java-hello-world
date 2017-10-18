@@ -1,11 +1,18 @@
 
 spring:
+  session:
+    store-type: redis
   datasource:
     type: org.apache.tomcat.jdbc.pool.DataSource
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mystest
     username: root
     password: 123456
+
+  redis:
+    host: localhost
+    port: 6379
+
 server:
   address: localhost
   port: 8089

@@ -1,18 +1,25 @@
 package com.beck.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.beck.bean.User;
 import com.beck.dao.UserRepository;
+import com.beck.libs.Encryption;
+import com.beck.libs.ResponseData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
 
-//  private static final Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
+  private static final Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
+  ResponseData responseData;
 
   @Autowired
   private UserRepository userRepository;
@@ -23,15 +30,37 @@ public class UserController {
     return userRepository.findAll();
   }
 
-  @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
   @ResponseBody
-  public List<User> findOne(@PathVariable(value = "id") Integer id) throws IOException {
-    return userRepository.findOne(id);
+  public List<User> findOne(@PathVariable(value = "username") String username) throws IOException {
+    return userRepository.findOne(username);
   }
 
-  @RequestMapping(value = "/user", method = RequestMethod.POST)
+  @RequestMapping(value = "/user/register", method = RequestMethod.POST)
   @ResponseBody
-  public List<User> saveOne(@RequestParam User user){
-    return userRepository.saveOne();
+  public ResponseData registerApp(@RequestBody String body) throws IOException {
+    Map map = (Map) JSON.parse(body);
+    List<User> userCount = userRepository.findOne(map.get("username").toString());
+    if (userCount.size() == 0) {
+      map.put("password", Encryption.getKeySha(map.get("password").toString()));
+      responseData = new ResponseData(200, "注册成功", userRepository.registerApp(map));
+    }else {
+      responseData = new ResponseData(404, "用户名已被注册");
+    }
+    return responseData;
   }
+
+  @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+  @ResponseBody
+  public ResponseData loginApp(@RequestBody String body) {
+    Map map = (Map) JSON.parse(body);
+    map.put("password", Encryption.getKeySha(map.get("password").toString()));
+    int count = userRepository.loginApp(map);
+    if(count == 0){
+      responseData = new ResponseData(400, "login fail");
+    }else
+      responseData = new ResponseData(200, "login success");
+    return responseData;
+  }
+
 }

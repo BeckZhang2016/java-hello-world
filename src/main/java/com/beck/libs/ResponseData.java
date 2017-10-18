@@ -5,6 +5,11 @@ public class ResponseData {
   private String message;
   private Object result;
 
+  public ResponseData(int code, String message) {
+    this.code = code;
+    this.message = message;
+  }
+
   public ResponseData(int code, String message, Object result) {
     this.code = code;
     this.message = message;
