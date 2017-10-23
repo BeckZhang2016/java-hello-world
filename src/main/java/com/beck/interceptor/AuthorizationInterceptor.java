@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.beck.libs.ResponseData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.session.SessionProperties;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,21 +28,22 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     boolean isAuthorize = false;
     logger.info(String.format("[---->] url:%s, method:%s, token:%s", request.getRequestURI(), request.getMethod(), request.getHeader("token")));
     if (!Arrays.asList(notAuthorizePath).contains(request.getMethod() + request.getRequestURI())) {
-      logger.info("-- 授权认证 ing --");
-      String token = request.getHeader("token");
       response.setCharacterEncoding("UTF-8");
       response.setContentType("application/json; charset=utf-8");
       ServletOutputStream outputStream = response.getOutputStream();
-      if (token != null) {
-        isAuthorize = token.equals("re") ? true : false;
-        if (isAuthorize == false) {
+      if (request.getHeader("token") != null) {
+        String token = request.getSession().getAttribute(request.getHeader("token")).toString();
+        if (token == null) {
           new WrapMethod().wrapFail(request, outputStream);
+        } else {
+          isAuthorize = true;
         }
       } else {
         new WrapMethod().wrapFail(request, outputStream);
       }
-    } else
+    } else {
       isAuthorize = true;
+    }
     return isAuthorize;
   }
 
@@ -51,7 +54,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-    
+
   }
 }
 

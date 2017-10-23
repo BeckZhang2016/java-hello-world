@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +20,8 @@ import java.util.Map;
 @Controller
 public class UserController {
 
-  private static final Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
-  ResponseData responseData;
+  private final Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
+  private ResponseData responseData;
 
   @Autowired
   private UserRepository userRepository;
@@ -44,7 +46,7 @@ public class UserController {
     if (userCount.size() == 0) {
       map.put("password", Encryption.getKeySha(map.get("password").toString()));
       responseData = new ResponseData(200, "注册成功", userRepository.registerApp(map));
-    }else {
+    } else {
       responseData = new ResponseData(404, "用户名已被注册");
     }
     return responseData;
@@ -52,14 +54,18 @@ public class UserController {
 
   @RequestMapping(value = "/user/login", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseData loginApp(@RequestBody String body) {
+  public ResponseData loginApp(HttpServletRequest request, HttpServletResponse response, @RequestBody String body) {
     Map map = (Map) JSON.parse(body);
     map.put("password", Encryption.getKeySha(map.get("password").toString()));
     int count = userRepository.loginApp(map);
-    if(count == 0){
+    if (count == 0) {
       responseData = new ResponseData(400, "login fail");
-    }else
+    } else {
+      String jwtToken = Encryption.jwtEncryption();
+      response.setHeader("token", jwtToken);
+      request.getSession().setAttribute(jwtToken, map.toString());
       responseData = new ResponseData(200, "login success");
+    }
     return responseData;
   }
 

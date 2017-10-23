@@ -3,10 +3,6 @@ package com.beck.dao;
 import com.beck.bean.Department;
 import com.beck.bean.Role;
 import com.beck.bean.User;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,13 +29,13 @@ public class UserRepository {
   String resource = "com/beck/mapper-config/mybatis-config.xml";
 
 
-  @Transactional(readOnly = true)
+//  @Transactional(readOnly = true)
   public List<User> findAll() {
     List<User> users = jdbcTemplate.query("SELECT u1.userId, u1.name, u1.departmentId, u1.roleId, d1.name as department, r1.name as role, u1.createdate FROM t_user u1 LEFT JOIN t_role r1 ON r1.roleId=u1.roleId LEFT JOIN t_department d1 ON d1.departmentId=u1.departmentId", new UserRowMap());
     return users;
   }
 
-  @Transactional(readOnly = true)
+//  @Transactional(readOnly = true)
   public List<User> findOne(String username) throws IOException {
     List<User> users = jdbcTemplate.query("SELECT u1.userId, u1.name, u1.departmentId, u1.roleId, d1.name as department, r1.name as role, u1.createdate FROM t_user u1 LEFT JOIN t_role r1 ON r1.roleId=u1.roleId LEFT JOIN t_department d1 ON d1.departmentId=u1.departmentId WHERE u1.`name` = ?",
             new Object[]{username}, new UserRowMap());

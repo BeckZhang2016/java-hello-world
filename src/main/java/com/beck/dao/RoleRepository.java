@@ -14,7 +14,6 @@ public class RoleRepository {
   JdbcTemplate jdbcTemplate;
 
   public Integer saveOne(String name) {
-    int id = jdbcTemplate.update("INSERT INTO t_role (`name`) VALUES (?)", new Object[]{name});
-    return id;
+    return jdbcTemplate.update("INSERT INTO t_role (`name`) VALUES (?)", new Object[]{name});
   }
 }
