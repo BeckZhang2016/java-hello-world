@@ -27,21 +27,26 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     boolean isAuthorize = false;
     logger.info(String.format("[---->] url:%s, method:%s, token:%s", request.getRequestURI(), request.getMethod(), request.getHeader("token")));
-    if (!Arrays.asList(notAuthorizePath).contains(request.getMethod() + request.getRequestURI())) {
-      response.setCharacterEncoding("UTF-8");
-      response.setContentType("application/json; charset=utf-8");
-      ServletOutputStream outputStream = response.getOutputStream();
-      if (request.getHeader("token") != null) {
-        String token = request.getSession().getAttribute(request.getHeader("token")).toString();
-        if (token == null) {
-          new WrapMethod().wrapFail(request, outputStream);
+    if (!request.getRequestURI().equals("/error")){
+      if (!Arrays.asList(notAuthorizePath).contains(request.getMethod() + request.getRequestURI())) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        ServletOutputStream outputStream = response.getOutputStream();
+        if (request.getHeader("token") != null) {
+          logger.info(request.getHeader("token"));
+          Object tokenValue = request.getSession().getAttribute(request.getHeader("token"));
+          if (tokenValue == null) {
+            new WrapMethod().wrapFail(request, outputStream);
+          } else {
+            isAuthorize = true;
+          }
         } else {
-          isAuthorize = true;
+          new WrapMethod().wrapFail(request, outputStream);
         }
       } else {
-        new WrapMethod().wrapFail(request, outputStream);
+        isAuthorize = true;
       }
-    } else {
+    }else {
       isAuthorize = true;
     }
     return isAuthorize;

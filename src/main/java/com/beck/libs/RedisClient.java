@@ -1,20 +1,17 @@
 package com.beck.libs;
 
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RedisClient {
 
-  private JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+  @Autowired
+  private StringRedisTemplate stringRedisTemplate;
 
-  public JedisConnectionFactory getJedisConnectionFactory() {
-    return jedisConnectionFactory;
-  }
-
-  public void setEx(String key, String value, int expire){
-    RedisConnection connection = jedisConnectionFactory.getConnection();
-    connection.setEx(key.getBytes(), expire, value.getBytes());
-    connection.close();
+  public void setEx(String key, String value, int expire) {
+    stringRedisTemplate.opsForValue().set(key, value);
   }
 
 }

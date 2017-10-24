@@ -64,7 +64,8 @@ public class UserController {
       String jwtToken = Encryption.jwtEncryption();
       response.setHeader("token", jwtToken);
       request.getSession().setAttribute(jwtToken, map.toString());
-      responseData = new ResponseData(200, "login success");
+      logger.info(jwtToken);
+      responseData = new ResponseData(200, "login success", jwtToken);
     }
     return responseData;
   }

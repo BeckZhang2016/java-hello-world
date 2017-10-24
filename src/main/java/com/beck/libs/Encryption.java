@@ -54,8 +54,6 @@ public class Encryption {
 
     Map body = new HashMap();
     body.put("iss", "beck");
-    body.put("sub", "user");
-    body.put("aud", "user");
     body.put("iat", new Date().getTime());
     String jwtBody = base64Encoder(JSON.toJSONString(body));
 

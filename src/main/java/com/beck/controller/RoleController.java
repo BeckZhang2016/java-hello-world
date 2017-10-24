@@ -5,6 +5,7 @@ import com.beck.dao.RoleRepository;
 import com.beck.libs.RedisClient;
 import com.beck.libs.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.lettuce.LettuceConnection;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import java.util.Map;
 @Controller
 public class RoleController {
 
-//  private RedisClient redisClient = new RedisClient();
+  private RedisClient redisClient = new RedisClient();
 
   @Autowired
   private RoleRepository roleRepository;
@@ -30,7 +31,7 @@ public class RoleController {
     ResponseData responseData;
     if(status != 0){
       responseData = new ResponseData(200, "success", null);
-//      redisClient.setEx(name, Integer.toString(status), 60 * 60);
+      redisClient.setEx(name, Integer.toString(status), 60 * 60);
     }else {
       responseData = new ResponseData(500, "fail", null);
     }
