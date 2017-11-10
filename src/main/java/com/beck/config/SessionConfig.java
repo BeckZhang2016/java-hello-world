@@ -1,4 +1,4 @@
-package com.beck.session.config;
+package com.beck.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

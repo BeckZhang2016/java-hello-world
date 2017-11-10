@@ -1,4 +1,4 @@
-package com.beck.session.config;
+package com.beck.config;
 
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 
