@@ -5,6 +5,7 @@ import com.beck.bean.User;
 import com.beck.dao.UserRepository;
 import com.beck.libs.Encryption;
 import com.beck.libs.ResponseData;
+import com.beck.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,13 @@ public class UserController {
   @Autowired
   private UserRepository userRepository;
 
+  @Autowired
+  private UserMapper userMapper;
+
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   @ResponseBody
   public List<User> findAll() {
-    return userRepository.findAll();
+    return userMapper.findAll();
   }
 
   @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)

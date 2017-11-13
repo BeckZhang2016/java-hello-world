@@ -26,8 +26,6 @@ public class UserRepository {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  String resource = "com/beck/mapper-config/mybatis-config.xml";
-
 
 //  @Transactional(readOnly = true)
   public List<User> findAll() {

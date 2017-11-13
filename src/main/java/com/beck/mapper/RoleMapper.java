@@ -10,10 +10,10 @@ import java.util.List;
 
 @Component
 public interface RoleMapper {
-    @Select("SELECT * FROM t_role")
-    @Results({
-            @Result(property = "name", column = "name"),
-            @Result(property = "id", column = "roleId")
-    })
-    List<Role> getAll();
+  @Select("SELECT * FROM t_role")
+  @Results({
+          @Result(property = "name", column = "name"),
+          @Result(property = "id", column = "roleId")
+  })
+  List<Role> getAll();
 }
