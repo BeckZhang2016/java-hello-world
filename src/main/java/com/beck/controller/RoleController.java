@@ -33,7 +33,7 @@ public class RoleController {
   public ResponseData saveOne(@RequestBody String body) {
     Map maps = (Map) JSON.parse(body);
     String name = (String) maps.get("name");
-    int status = roleRepository.saveOne(name);
+    int status = roleMapper.saveOne(name);
     ResponseData responseData;
     if (status != 0) {
       responseData = new ResponseData(200, "success", null);
@@ -47,9 +47,8 @@ public class RoleController {
   @RequestMapping(value = "/role", method = RequestMethod.GET)
   @ResponseBody
   public ResponseData getAll() {
-    ResponseData responseData;
     List<Role> users = roleMapper.getAll();
 
-    return responseData = new ResponseData(200, "success", users);
+    return new ResponseData(200, "success", users);
   }
 }

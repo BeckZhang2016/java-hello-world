@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthorizationInterceptor.class);
-  private final String[] notAuthorizePath = {"POST/user/login", "POST/user/register"};
+  private final String[] notAuthorizePath = {"POST/login", "POST/register"};
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

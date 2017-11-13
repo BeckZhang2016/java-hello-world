@@ -1,6 +1,7 @@
 package com.beck.mapper;
 
 import com.beck.bean.Role;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -16,4 +17,7 @@ public interface RoleMapper {
           @Result(property = "id", column = "roleId")
   })
   List<Role> getAll();
+
+  @Insert("INSERT INTO t_role (`name`) VALUES (#{name})")
+  int saveOne(String name);
 }

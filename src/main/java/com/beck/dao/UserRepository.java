@@ -41,7 +41,7 @@ public class UserRepository {
   }
 
   public int registerApp(Map userMap) {
-    int rows = jdbcTemplate.update("INSERT INTO t_user (`name`, password, departmentId, roleId) VALUES (?,?,?,?)",
+    int rows = jdbcTemplate.update("INSERT INTO t_user (`name`, `password`, departmentId, roleId) VALUES (?,?,?,?)",
             new Object[]{userMap.get("username"),userMap.get("password"), userMap.get("departmentId"), userMap.get("roleId")});
     return rows;
   }

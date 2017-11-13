@@ -32,37 +32,37 @@ public class UserController {
 
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   @ResponseBody
-  public List<User> findAll() {
-    return userMapper.findAll();
+  public ResponseData findAll() {
+    return new ResponseData(200, "success", userMapper.findAll());
   }
 
   @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
   @ResponseBody
-  public List<User> findOne(@PathVariable(value = "username") String username) throws IOException {
-    return userRepository.findOne(username);
+  public ResponseData findOne(@PathVariable(value = "username") String username) throws IOException {
+    return new ResponseData(200, "success", userMapper.findOne(username));
   }
 
-  @RequestMapping(value = "/user/register", method = RequestMethod.POST)
+  @RequestMapping(value = "/register", method = RequestMethod.POST)
   @ResponseBody
   public ResponseData registerApp(@RequestBody String body) throws IOException {
     Map map = (Map) JSON.parse(body);
-    List<User> userCount = userRepository.findOne(map.get("username").toString());
+    List<User> userCount = userMapper.findOne(map.get("username").toString());
     if (userCount.size() == 0) {
       map.put("password", Encryption.getKeySha(map.get("password").toString()));
-      responseData = new ResponseData(200, "注册成功", userRepository.registerApp(map));
+      responseData = new ResponseData(200, "注册成功", userMapper.registerApp(map));
     } else {
       responseData = new ResponseData(404, "用户名已被注册");
     }
     return responseData;
   }
 
-  @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
   @ResponseBody
   public ResponseData loginApp(HttpServletRequest request, HttpServletResponse response, @RequestBody String body) {
     Map map = (Map) JSON.parse(body);
     map.put("password", Encryption.getKeySha(map.get("password").toString()));
-    int count = userRepository.loginApp(map);
-    if (count == 0) {
+    String count = userMapper.loginApp(map);
+    if (Integer.parseInt(count) == 0) {
       responseData = new ResponseData(400, "login fail");
     } else {
       String jwtToken = Encryption.jwtEncryption();
