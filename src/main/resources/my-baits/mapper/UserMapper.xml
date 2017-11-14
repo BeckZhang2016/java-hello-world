@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射dao -->
+<mapper namespace="com.beck.mapper.UserMapper">
+    <!-- 结果集类型 -->
+    <resultMap id="tree" type="hello.pojo.Tree">
+        <!-- 映射字段 -->
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <!-- 嵌套第二张表 -->
+        <collection property="child" ofType="hello.pojo.Tree">
+            <id column="id2" property="id"/>
+            <result column="name2" property="name"/>
+            <!-- 嵌套第三张表 -->
+            <collection property="child" ofType="hello.pojo.Tree">
+                <id column="id3" property="id"/>
+                <result column="name3" property="name"/>
+            </collection>
+        </collection>
+    </resultMap>
+</mapper>
