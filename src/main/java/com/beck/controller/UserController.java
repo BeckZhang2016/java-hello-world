@@ -8,6 +8,7 @@ import com.beck.libs.ResponseData;
 import com.beck.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,7 @@ public class UserController {
       String jwtToken = Encryption.jwtEncryption();
       response.setHeader("token", jwtToken);
       request.getSession().setAttribute(jwtToken, map.toString());
-      logger.info(jwtToken);
+      logger.debug(jwtToken);
       responseData = new ResponseData(200, "login success", jwtToken);
     }
     return responseData;

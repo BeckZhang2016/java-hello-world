@@ -25,12 +25,13 @@ server:
     uri-encoding: utf-8
 
 mybatis:
-#  mapper-locations: classpath:my-baits/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
     default-fetch-size: 50
     default-statement-timeout: 10
     auto-mapping-unknown-column-behavior: warning
+
+
 
 #  typeAliasesPackage
 #  指定别名的包，可以多个，逗号分隔
@@ -49,7 +50,6 @@ mybatis:
 #  NONE: 不做任何反应
 #  WARNING: 输出提醒日志 ('org.apache.ibatis.session.AutoMappingUnknownColumnBehavior' 的日志等级必须设置为 WARN)
 #  FAILING: 映射失败 (抛出 SqlSessionException)
-
 
 
 
