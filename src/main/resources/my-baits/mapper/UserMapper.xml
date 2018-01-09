@@ -5,15 +5,15 @@
 <!-- 映射dao -->
 <mapper namespace="com.beck.mapper.UserMapper">
     <!-- 结果集类型 -->
-    <resultMap id="roleBean" type="com.beck.bean.Role">
+    <resultMap id="roleBean" type="com.beck.entities.Role">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
     </resultMap>
-    <resultMap id="departmentBean" type="com.beck.bean.Department">
+    <resultMap id="departmentBean" type="com.beck.entities.Department">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
     </resultMap>
-    <resultMap id="userBean" type="com.beck.bean.User">
+    <resultMap id="userBean" type="com.beck.entities.User">
         <!-- 映射字段 -->
         <id column="id" property="id"/>
         <result column="name" property="name"/>

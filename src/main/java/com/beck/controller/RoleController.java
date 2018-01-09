@@ -1,7 +1,7 @@
 package com.beck.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.beck.bean.Role;
+import com.beck.entities.Role;
 import com.beck.dao.RoleRepository;
 import com.beck.libs.RedisClient;
 import com.beck.libs.ResponseData;

@@ -1,15 +1,14 @@
 package com.beck.dao;
 
-import com.beck.bean.Department;
-import com.beck.bean.Role;
-import com.beck.bean.User;
+import com.beck.entities.Department;
+import com.beck.entities.Role;
+import com.beck.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.sql.ResultSet;

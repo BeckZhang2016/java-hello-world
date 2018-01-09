@@ -1,4 +1,4 @@
-package com.beck.bean;
+package com.beck.entities;
 
 public class Department {
   private int id;

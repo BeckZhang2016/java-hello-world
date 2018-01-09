@@ -1,6 +1,6 @@
 package com.beck.mapper;
 
-import com.beck.bean.User;
+import com.beck.entities.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.beck.mapper;
 
-import com.beck.bean.Role;
+import com.beck.entities.Role;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;

@@ -1,4 +1,4 @@
-package com.beck.bean;
+package com.beck.entities;
 
 public class Role implements java.io.Serializable {
   private int id;
