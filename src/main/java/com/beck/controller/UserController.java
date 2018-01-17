@@ -2,10 +2,11 @@ package com.beck.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.beck.entities.User;
-import com.beck.dao.UserRepository;
-import com.beck.libs.Encryption;
-import com.beck.libs.ResponseData;
+import com.beck.libs.EncryptUtil;
+import com.beck.repository.UserRepository;
+import com.beck.libs.JwtUtil;
 import com.beck.mapper.UserMapper;
+import com.beck.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class UserController {
 
   private final Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
-  private ResponseData responseData;
+  private ResultVO responseData;
 
   @Autowired
   private UserRepository userRepository;
@@ -32,44 +33,44 @@ public class UserController {
 
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseData findAll() {
-    return new ResponseData(200, "success", userMapper.findAll());
+  public ResultVO findAll() {
+    return new ResultVO<>(200, "success", userMapper.findAll());
   }
 
   @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseData findOne(@PathVariable(value = "username") String username) throws IOException {
-    return new ResponseData(200, "success", userMapper.findOne(username));
+  public ResultVO findOne(@PathVariable(value = "username") String username) throws IOException {
+    return new ResultVO<>(200, "success", userMapper.findOneForName(username));
   }
 
   @RequestMapping(value = "/register", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseData registerApp(@RequestBody String body) throws IOException {
+  public ResultVO registerApp(@RequestBody String body) throws IOException {
     Map map = (Map) JSON.parse(body);
-    List<User> userCount = userMapper.findOne(map.get("username").toString());
+    List<User> userCount = userMapper.findOneForName(map.get("username").toString());
     if (userCount.size() == 0) {
-      map.put("password", Encryption.getKeySha(map.get("password").toString()));
-      responseData = new ResponseData(200, "注册成功", userMapper.registerApp(map));
+      map.put("ecrptypwd", EncryptUtil.SHA256Encoder(map.get("password").toString()));
+      responseData = new ResultVO<>(200, "注册成功", userMapper.registerApp(map));
     } else {
-      responseData = new ResponseData(404, "用户名已被注册");
+      responseData = new ResultVO<>(404, "用户名已被注册");
     }
     return responseData;
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseData loginApp(HttpServletRequest request, HttpServletResponse response, @RequestBody String body) {
+  public ResultVO loginApp(HttpServletRequest request, HttpServletResponse response, @RequestBody String body) {
     Map map = (Map) JSON.parse(body);
-    map.put("password", Encryption.getKeySha(map.get("password").toString()));
+    map.put("ecrptypwd", EncryptUtil.SHA256Encoder(map.get("password").toString()));
     String count = userMapper.loginApp(map);
     if (Integer.parseInt(count) == 0) {
-      responseData = new ResponseData(400, "login fail");
+      responseData = new ResultVO(400, "login fail");
     } else {
-      String jwtToken = Encryption.jwtEncryption();
+      String jwtToken = JwtUtil.jwtEncryption();
       response.setHeader("token", jwtToken);
       request.getSession().setAttribute(jwtToken, map.toString());
       logger.debug(jwtToken);
-      responseData = new ResponseData(200, "login success", jwtToken);
+      responseData = new ResultVO<>(200, "login success", jwtToken);
     }
     return responseData;
   }

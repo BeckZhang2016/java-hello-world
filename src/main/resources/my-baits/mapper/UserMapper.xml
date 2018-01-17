@@ -5,32 +5,26 @@
 <!-- 映射dao -->
 <mapper namespace="com.beck.mapper.UserMapper">
     <!-- 结果集类型 -->
-    <resultMap id="roleBean" type="com.beck.entities.Role">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-    </resultMap>
-    <resultMap id="departmentBean" type="com.beck.entities.Department">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-    </resultMap>
-    <resultMap id="userBean" type="com.beck.entities.User">
-        <!-- 映射字段 -->
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="password" property="password"/>
-        <result column="createdate" property="createdate"/>
-        <collection property="department">
-            <id column="id" property="id"/>
-            <id column="name" property="name"/>
-        </collection>
-        <collection  property="role">
-            <id column="id" property="id"/>
-            <id column="name" property="name"/>
-        </collection>
+    <resultMap id="findAllUserBean" type="com.beck.entities.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="ecrptypwd" column="ecrptypwd"/>
+        <result property="createdate" column="createdate"/>
     </resultMap>
 
-    <select id=""></select>
-    <update id=""></update>
-    <insert id=""></insert>
-    <delete id=""></delete>
+    <select id="findAll" resultMap="findAllUserBean">
+        SELECT * FROM `user`
+    </select>
+    <select id="findOneForName" resultMap="findAllUserBean" parameterType="String">
+        SELECT * FROM `user` WHERE #{username}
+    </select>
+    <select id="loginApp" resultType="String" parameterType="Map">
+        SELECT COUNT(0) as total FROM `user` WHERE `username` = #{username} AND `ecrptypwd` = #{ecrptypwd}
+    </select>
+
+    <insert id="registerApp">
+        INSERT INTO user (username, ecrptypwd) VALUES (#{username},#{ecrptypwd})
+    </insert>
+
+
 </mapper>

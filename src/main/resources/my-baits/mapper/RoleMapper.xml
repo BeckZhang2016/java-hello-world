@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射dao -->
+<mapper namespace="com.beck.mapper.RoleMapper">
+    <!-- 结果集类型 -->
+    <resultMap id="findAllRoleBean" type="com.beck.entities.Role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="findAllRoleBean">
+        SELECT * FROM role
+    </select>
+
+    <insert id="saveOne">
+        INSERT INTO role (`name`) VALUES (#{name})
+    </insert>
+
+
+</mapper>

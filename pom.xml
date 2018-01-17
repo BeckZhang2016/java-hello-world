@@ -32,16 +32,26 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>1.5.7.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>1.5.7.RELEASE</version>
+        </dependency>
+
+        <!--用于检查应用健康状态-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>1.5.6.RELEASE</version>
+            <version>1.5.7.RELEASE</version>
         </dependency>
+
+        <!--用来读取配置文件内容，自动配置 例如： 应用类加EnableConfigurationProperties({ConfigBean.class})， 配置类加ConfigurationProperties(prefix = "my")-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-            <version>1.5.6.RELEASE</version>
+            <version>1.5.7.RELEASE</version>
         </dependency>
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,19 +82,27 @@
         </dependency>
 
         <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.39</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-        </dependency>-->
+            <version>3.4.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
 
     </dependencies>
 

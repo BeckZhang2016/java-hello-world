@@ -1,28 +1,26 @@
 package com.beck.entities;
 
-public class Role implements java.io.Serializable {
-  private int id;
-  private String name;
+import lombok.Data;
 
-  public Role(){}
-  public Role(int id, String name) {
-    this.id = id;
-    this.name = name;
-  }
+@Data
+public class Role {
+    private int id;
+    private String name;
 
-  public int getId() {
-    return id;
-  }
+    public Role() {
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
 
-  public String getName() {
-    return name;
-  }
+    public Role(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

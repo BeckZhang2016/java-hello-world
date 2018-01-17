@@ -2,10 +2,10 @@ package com.beck.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.beck.entities.Role;
-import com.beck.dao.RoleRepository;
 import com.beck.libs.RedisClient;
-import com.beck.libs.ResponseData;
 import com.beck.mapper.RoleMapper;
+import com.beck.repository.RoleRepository;
+import com.beck.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,25 +30,25 @@ public class RoleController {
 
   @RequestMapping(value = "/role", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseData saveOne(@RequestBody String body) {
+  public ResultVO saveOne(@RequestBody String body) {
     Map maps = (Map) JSON.parse(body);
     String name = (String) maps.get("name");
     int status = roleMapper.saveOne(name);
-    ResponseData responseData;
+    ResultVO responseData;
     if (status != 0) {
-      responseData = new ResponseData(200, "success", null);
+      responseData = new ResultVO<>(200, "success", null);
       redisClient.setEx(name, Integer.toString(status), 60 * 60);
     } else {
-      responseData = new ResponseData(500, "fail", null);
+      responseData = new ResultVO<>(500, "fail", null);
     }
     return responseData;
   }
 
   @RequestMapping(value = "/role", method = RequestMethod.GET)
   @ResponseBody
-  public ResponseData getAll() {
-    List<Role> users = roleMapper.getAll();
+  public ResultVO getAll() {
+    List<Role> users = roleMapper.findAll();
 
-    return new ResponseData(200, "success", users);
+    return new ResultVO<>(200, "success", users);
   }
 }
