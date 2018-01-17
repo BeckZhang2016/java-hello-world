@@ -19,36 +19,33 @@ import java.util.Map;
 @Controller
 public class RoleController {
 
-  @Autowired
-  private RedisClient redisClient;
+    @Autowired
+    private RedisClient redisClient;
 
-  @Autowired
-  private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-  @Autowired
-  private RoleMapper roleMapper;
-
-  @RequestMapping(value = "/role", method = RequestMethod.POST)
-  @ResponseBody
-  public ResultVO saveOne(@RequestBody String body) {
-    Map maps = (Map) JSON.parse(body);
-    String name = (String) maps.get("name");
-    int status = roleMapper.saveOne(name);
-    ResultVO responseData;
-    if (status != 0) {
-      responseData = new ResultVO<>(200, "success", null);
-      redisClient.setEx(name, Integer.toString(status), 60 * 60);
-    } else {
-      responseData = new ResultVO<>(500, "fail", null);
+    @RequestMapping(value = "/role", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO saveOne(@RequestBody String body) {
+        Map maps = (Map) JSON.parse(body);
+        String name = (String) maps.get("name");
+        int status = roleRepository.saveOne(name);
+        ResultVO result;
+        if (status != 0) {
+            result = new ResultVO<>(200, "success");
+            redisClient.setEx(name, Integer.toString(status), 60 * 60);
+        } else {
+            result = new ResultVO<>(500, "fail");
+        }
+        return result;
     }
-    return responseData;
-  }
 
-  @RequestMapping(value = "/role", method = RequestMethod.GET)
-  @ResponseBody
-  public ResultVO getAll() {
-    List<Role> users = roleMapper.findAll();
+    @RequestMapping(value = "/role", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO getAll() {
+        List<Role> users = roleRepository.findAll();
 
-    return new ResultVO<>(200, "success", users);
-  }
+        return new ResultVO<>(200, "success", users);
+    }
 }
