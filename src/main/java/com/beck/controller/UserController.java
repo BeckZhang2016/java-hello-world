@@ -64,7 +64,7 @@ public class UserController {
         if (Integer.parseInt(count) == 0) {
             responseData = new ResultVO(400, "login fail");
         } else {
-            String jwtToken = JwtUtil.createToken();
+            String jwtToken = JwtUtil.createToken(request.getRemoteAddr());
             response.setHeader("token", jwtToken);
             request.getSession().setAttribute(jwtToken, map.toString());
             logger.debug(jwtToken);

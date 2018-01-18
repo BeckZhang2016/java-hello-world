@@ -1,6 +1,7 @@
 package com.beck.aspects;
 
 import com.beck.enums.UrlsEnum;
+import com.beck.enums.ExceptionEnum;
 import com.beck.vo.ResultVO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,10 +34,10 @@ public class AuthTokenAspect {
             if (webToken != null) {
                 Object tokenValue = request.getSession().getAttribute(request.getHeader("token"));
                 if (tokenValue == null) {
-                    return new ResultVO<>(400, "Authorize Fail!");
+                    return new ResultVO<>(400, "Authorize Fail!", ExceptionEnum.TOKEN_ERROR);
                 }
             } else {
-                return new ResultVO<>(400, "Authorize Fail!");
+                return new ResultVO<>(400, "Authorize Fail!", ExceptionEnum.TOKEN_ERROR);
             }
         }
 

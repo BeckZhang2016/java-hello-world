@@ -1,24 +1,21 @@
 package com.beck.libs;
 
 import com.alibaba.fastjson.JSON;
+import com.beck.enums.ExceptionEnum;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JwtUtil {
 
-    public static String createToken() {
-        Map header = new HashMap();
-        header.put("typ", "JWT");
-        header.put("alg", "SHA-256");
+    public static String createToken(String ip) {
+        Header header = new Header("JWT", "SHA-256");
         String jwtHeader = EncryptUtil.base64Encoder(JSON.toJSONString(header));
-
-        Map body = new HashMap();
-        body.put("iss", "beck");
-        body.put("iat", new Date().getTime());
-        String jwtBody = EncryptUtil.base64Encoder(JSON.toJSONString(body));
+        Payload payload = new Payload();
+        payload.setIss("beck");
+        payload.setIat(new Date().getTime());
+        payload.setIp(ip);
+        String jwtBody = EncryptUtil.base64Encoder(JSON.toJSONString(payload));
 
         String jwtSignature = EncryptUtil.SHA256Encoder(jwtHeader + '.' + jwtBody);
         String jwtToken = jwtHeader + '.' + jwtBody + '.' + jwtSignature;
@@ -26,8 +23,20 @@ public class JwtUtil {
         return jwtToken;
     }
 
+    public static ExceptionEnum verifyToken(String token, String ip) {
+        String[] tokens = token.split(".");
+        //todo wait continue...
+        if (tokens.length != 3) {
+            return ExceptionEnum.TOKEN_ERROR;
+        }
+        String header = tokens[0], payload = tokens[1], signature = tokens[3];
+
+        return ExceptionEnum.TOKEN_ERROR;
+    }
+
+
     @Data
-    public static class Header{
+    public static class Header {
         /***
          * 类型
          */
@@ -53,7 +62,7 @@ public class JwtUtil {
         /***
          * Token签发者
          */
-        private Integer iss;
+        private String iss;
 
         /***
          * Token创建时间
@@ -75,8 +84,6 @@ public class JwtUtil {
          */
         private String ip;
     }
-
-
 
 
 }
