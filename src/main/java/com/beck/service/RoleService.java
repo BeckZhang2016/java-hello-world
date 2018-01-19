@@ -12,15 +12,15 @@ import java.util.List;
 
 @Service
 public class RoleService {
-  private static final Logger logger = LoggerFactory.getLogger(RoleService.class);
-  @Autowired
-  private RoleMapper roleMapper;
+    private static final Logger logger = LoggerFactory.getLogger(RoleService.class);
+    @Autowired
+    private RoleMapper roleMapper;
 
-  public Integer saveOne(String name){
-    return roleMapper.saveOne(name);
-  }
+    public Integer saveOne(String name) {
+        return roleMapper.saveOne(name);
+    }
 
-  public List<Role> findAll(){
-    return roleMapper.findAll();
-  }
+    public List<Role> findAll() {
+        return roleMapper.findAll();
+    }
 }

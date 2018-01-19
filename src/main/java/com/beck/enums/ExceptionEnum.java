@@ -10,7 +10,7 @@ public enum ExceptionEnum {
     private Integer code;
     private String message;
 
-    ExceptionEnum(Integer code, String msg){
+    ExceptionEnum(Integer code, String msg) {
         this.code = code;
         this.message = msg;
     }

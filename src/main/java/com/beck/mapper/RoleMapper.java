@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RoleMapper {
 
-  List<Role> findAll();
+    List<Role> findAll();
 
-  int saveOne(String name);
+    int saveOne(String name);
 }

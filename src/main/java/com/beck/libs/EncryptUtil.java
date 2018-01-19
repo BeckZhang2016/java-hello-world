@@ -12,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 public class EncryptUtil {
     /**
      * base64 编码
+     *
      * @param inputStr
      * @return
      */
@@ -30,6 +31,7 @@ public class EncryptUtil {
 
     /**
      * base64 解码
+     *
      * @param inputStr
      * @return String
      */
@@ -37,14 +39,14 @@ public class EncryptUtil {
         BASE64Decoder decoder = new BASE64Decoder();
         String decode = null;
         try {
-            decode = new String(decoder.decodeBuffer(inputStr),"utf-8");
+            decode = new String(decoder.decodeBuffer(inputStr), "utf-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
         return decode;
     }
 
-    public static String SHA256Encoder(String str){
+    public static String SHA256Encoder(String str) {
         MessageDigest messageDigest;
         String encdeStr = "";
         try {

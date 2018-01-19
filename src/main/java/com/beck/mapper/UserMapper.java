@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserMapper {
-  List<User> findAll();
+    List<User> findAll();
 
-  List<User> findOneForName(String username);
+    List<User> findOneForName(String username);
 
-  String loginApp(Map map);
+    String loginApp(Map map);
 
-  int registerApp(Map map);
-
+    int registerApp(Map map);
 
 
 }

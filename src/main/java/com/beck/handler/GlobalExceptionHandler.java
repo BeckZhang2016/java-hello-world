@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ProjectException.class})
-    public ResultVO handleHttpMessageNotReadableException(ProjectException e){
+    public ResultVO handleHttpMessageNotReadableException(ProjectException e) {
         return new ResultVO(e.getCode(), e.getMessage());
     }
 }

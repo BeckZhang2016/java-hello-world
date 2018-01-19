@@ -10,15 +10,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class MyWebAppConfigure extends WebMvcConfigurerAdapter {
 
-  @Bean
-  public MethodValidationPostProcessor methodValidationPostProcessor(){
-    return new MethodValidationPostProcessor();
-  }
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        return new MethodValidationPostProcessor();
+    }
 
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new CORSInterceptor()).addPathPatterns("/**");
-    super.addInterceptors(registry);
-  }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new CORSInterceptor()).addPathPatterns("/**");
+        super.addInterceptors(registry);
+    }
 
 }

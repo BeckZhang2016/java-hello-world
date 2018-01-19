@@ -57,7 +57,7 @@ public class LogAspect {
         if (resultVO != null) {
             HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
             String statusCode = "200";
-            if(resultVO.getCode() != Integer.parseInt(statusCode)){
+            if (resultVO.getCode() != Integer.parseInt(statusCode)) {
                 response.setStatus(400);
             }
 

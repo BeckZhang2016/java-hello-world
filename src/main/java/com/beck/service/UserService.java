@@ -20,19 +20,19 @@ public class UserService {
     public UserMapper userMapper;
 
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return userMapper.findAll();
     }
 
-    public List<User> findOneForName(String username){
+    public List<User> findOneForName(String username) {
         return userMapper.findOneForName(username);
     }
 
-    public String loginApp(Map map){
+    public String loginApp(Map map) {
         return userMapper.loginApp(map);
     }
 
-    public int registerApp(Map map){
+    public int registerApp(Map map) {
         return userMapper.registerApp(map);
     }
 

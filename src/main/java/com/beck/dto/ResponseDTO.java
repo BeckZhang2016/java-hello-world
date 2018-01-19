@@ -18,6 +18,4 @@ public class ResponseDTO {
     public Object responseArgs;
 
 
-
-
 }
