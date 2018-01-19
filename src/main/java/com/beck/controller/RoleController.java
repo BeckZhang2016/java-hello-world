@@ -3,8 +3,7 @@ package com.beck.controller;
 import com.alibaba.fastjson.JSON;
 import com.beck.entities.Role;
 import com.beck.libs.RedisClient;
-import com.beck.mapper.RoleMapper;
-import com.beck.repository.RoleRepository;
+import com.beck.service.RoleService;
 import com.beck.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,14 +22,14 @@ public class RoleController {
     private RedisClient redisClient;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     @RequestMapping(value = "/role", method = RequestMethod.POST)
     @ResponseBody
     public ResultVO saveOne(@RequestBody String body) {
         Map maps = (Map) JSON.parse(body);
         String name = (String) maps.get("name");
-        int status = roleRepository.saveOne(name);
+        int status = roleService.saveOne(name);
         ResultVO result;
         if (status != 0) {
             result = new ResultVO<>(200, "success");
@@ -44,7 +43,7 @@ public class RoleController {
     @RequestMapping(value = "/role", method = RequestMethod.GET)
     @ResponseBody
     public ResultVO getAll() {
-        List<Role> users = roleRepository.findAll();
+        List<Role> users = roleService.findAll();
 
         return new ResultVO<>(200, "success", users);
     }

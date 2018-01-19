@@ -31,7 +31,7 @@ public class EncryptUtil {
     /**
      * base64 解码
      * @param inputStr
-     * @return
+     * @return String
      */
     public static String base64Decoder(String inputStr) {
         BASE64Decoder decoder = new BASE64Decoder();

@@ -3,9 +3,8 @@ package com.beck.controller;
 import com.alibaba.fastjson.JSON;
 import com.beck.entities.User;
 import com.beck.libs.EncryptUtil;
-import com.beck.repository.UserRepository;
+import com.beck.service.UserService;
 import com.beck.libs.JwtUtil;
-import com.beck.mapper.UserMapper;
 import com.beck.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,18 +24,18 @@ public class UserController {
     private final Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseBody
     public ResultVO findAll() {
-        return new ResultVO<>(200, "success", userRepository.findAll());
+        return new ResultVO<>(200, "success", userService.findAll());
     }
 
     @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
     @ResponseBody
     public ResultVO findOne(@PathVariable(value = "username") String username) throws IOException {
-        return new ResultVO<>(200, "success", userRepository.findOneForName(username));
+        return new ResultVO<>(200, "success", userService.findOneForName(username));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -44,10 +43,10 @@ public class UserController {
     public ResultVO registerApp(@RequestBody String body) throws IOException {
         Map map = (Map) JSON.parse(body);
         ResultVO responseData;
-        List<User> userCount = userRepository.findOneForName(map.get("username").toString());
+        List<User> userCount = userService.findOneForName(map.get("username").toString());
         if (userCount.size() == 0) {
             map.put("ecrptypwd", EncryptUtil.SHA256Encoder(map.get("password").toString()));
-            responseData = new ResultVO<>(200, "注册成功", userRepository.registerApp(map));
+            responseData = new ResultVO<>(200, "注册成功", userService.registerApp(map));
         } else {
             responseData = new ResultVO<>(404, "用户名已被注册");
         }
@@ -59,7 +58,7 @@ public class UserController {
     public ResultVO loginApp(HttpServletRequest request, HttpServletResponse response, @RequestBody String body) {
         Map map = (Map) JSON.parse(body);
         map.put("ecrptypwd", EncryptUtil.SHA256Encoder(map.get("password").toString()));
-        String count = userRepository.loginApp(map);
+        String count = userService.loginApp(map);
         ResultVO responseData;
         if (Integer.parseInt(count) == 0) {
             responseData = new ResultVO(400, "login fail");
