@@ -18,6 +18,9 @@ spring:
       max-wait: 8
       max-idle: 0
       min-idle: 0
+  freemarker:
+    template-loader-path: classpath:/web/templates/
+
 server:
   address: localhost
   port: 8089
@@ -32,6 +35,5 @@ mybatis:
     default-fetch-size: 50
     default-statement-timeout: 10
     auto-mapping-unknown-column-behavior: warning
-
 
 

@@ -30,7 +30,7 @@ public class AuthTokenAspect {
 
         String webToken = request.getHeader("token");
         Boolean flag = UrlsEnum.ALLOW_TOKEN_URLS.getUrls().contains(request.getMethod() + request.getRequestURI());
-        if (!flag) {
+        if (!request.getRequestURI().equals("/error") && !flag) {
             if (webToken != null) {
                 Object tokenValue = request.getSession().getAttribute(request.getHeader("token"));
                 if (tokenValue == null) {

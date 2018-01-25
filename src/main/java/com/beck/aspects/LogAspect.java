@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -52,26 +53,23 @@ public class LogAspect {
         requestDTO.setRequestArgs(params.toArray());
 
         logger.info(String.format("[---->] %s", JSON.toJSONString(requestDTO)));
-
-        ResultVO resultVO = (ResultVO) pjp.proceed();
-        if (resultVO != null) {
+        Object object = pjp.proceed();
+        if (object instanceof ResultVO) {
+            ResultVO resultVO = (ResultVO) object;
             HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
             String statusCode = "200";
             if (resultVO.getCode() != Integer.parseInt(statusCode)) {
                 response.setStatus(400);
             }
-
             ResponseDTO responseDTO = new ResponseDTO();
             responseDTO.setMethod(request.getMethod());
             responseDTO.setRequestUrl(request.getRequestURI());
             responseDTO.setStatusCode(response.getStatus());
             responseDTO.setResponseArgs(resultVO);
-
             logger.info(String.format("[<----] %s", JSON.toJSONString(responseDTO)));
-
+            return resultVO;
         }
-        return resultVO;
+        return object;
     }
-
 
 }
