@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Component
 public class GlobalExceptionHandler {
     /**
-     * 404 project exception
+     * 400 project exception
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ProjectException.class})
     public ResultVO handleHttpMessageNotReadableException(ProjectException e) {
         return new ResultVO(e.getCode(), e.getMessage());
     }
+
+    /**
+     * 404 project exception
+     */
 
 
 }

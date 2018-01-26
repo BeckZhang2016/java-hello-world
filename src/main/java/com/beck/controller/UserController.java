@@ -2,6 +2,8 @@ package com.beck.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.beck.entities.User;
+import com.beck.enums.ExceptionEnum;
+import com.beck.exception.ProjectException;
 import com.beck.libs.EncryptUtil;
 import com.beck.service.UserService;
 import com.beck.libs.JwtUtil;
@@ -74,7 +76,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/index.html")
-    public ModelAndView showIndex(){
+    public ModelAndView showIndex() throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/index");
         return modelAndView;
